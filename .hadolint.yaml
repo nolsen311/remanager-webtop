@@ -1,0 +1,6 @@
+ignored:
+  # These packages intentionally float to whatever version the
+  # linuxserver/webtop base image's Ubuntu release currently provides
+  # (the base image itself is tracked by tag, not a pinned version), so
+  # pinning them here would just go stale and break builds over time.
+  - DL3008
