@@ -7,6 +7,17 @@
 mkdir -p /config/.config/labwc
 
 cat > /config/.config/labwc/autostart <<'EOF'
+# reManager stores saved devices via the OS keyring; without an unlocked
+# default collection it fails to store the password and, because of how
+# reManager's save flow is ordered, aborts before writing the device to
+# devices.json too - so *nothing* about the device persists, not just
+# the password. This creates (or unlocks, on later starts) a "login"
+# keyring with a fixed stub password so that path always succeeds. It's
+# not meant to be a real secret store: the password below is not a
+# secret, and reManager's own devices.json/settings.json - not this
+# keyring - are what actually need to persist across container restarts.
+echo -n 'remanager-stub' | gnome-keyring-daemon --unlock --replace --components=secrets >/dev/null 2>&1
+
 reManager &
 exit 0
 EOF
