@@ -1,0 +1,45 @@
+name: PR Build Validation
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: pr-validate-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Look up newest upstream reManager release
+        id: upstream
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag=$(gh api repos/rmitchellscott/reManager/releases/latest --jq .tag_name)
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build (no push) against newest upstream release
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: false
+          build-args: |
+            REMANAGER_VERSION=${{ steps.upstream.outputs.tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

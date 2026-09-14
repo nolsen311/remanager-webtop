@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv bash
+# shellcheck shell=bash
 # Ensures reManager launches automatically in the desktop session.
 # Runs on every container start (not just first boot) so that upgrading
 # the image also fixes up a pre-existing /config volume.
