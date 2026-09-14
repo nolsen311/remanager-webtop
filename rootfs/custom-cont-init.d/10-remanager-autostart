@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv bash
+# Ensures reManager launches automatically in the desktop session.
+# Runs on every container start (not just first boot) so that upgrading
+# the image also fixes up a pre-existing /config volume.
+
+mkdir -p /config/.config/labwc
+
+cat > /config/.config/labwc/autostart <<'EOF'
+reManager &
+exit 0
+EOF
+
+chmod 644 /config/.config/labwc/autostart

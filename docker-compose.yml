@@ -1,0 +1,19 @@
+services:
+  remanager:
+    image: ghcr.io/nolsen311/remanager-webtop:latest
+    container_name: remanager
+    restart: unless-stopped
+    shm_size: "1gb"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      # - CUSTOM_USER=admin    # uncomment to require a login for the web UI
+      # - PASSWORD=changeme    # uncomment to require a login for the web UI
+    volumes:
+      - remanager-config:/config
+    ports:
+      - "3001:3001"
+
+volumes:
+  remanager-config:
