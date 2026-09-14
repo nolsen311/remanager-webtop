@@ -23,12 +23,11 @@ below.
 
 1. Push this repo to GitHub under your own account. The workflow needs no
    secrets — it uses the built-in `GITHUB_TOKEN`.
-2. After the first workflow run, open the repo's **Packages** tab, find
-   `remanager-webtop`, and set its visibility to **Public** (package
-   settings, not the repo). This lets `docker compose pull` work on your
-   server without logging in to GHCR. If you'd rather keep it private, run
-   `docker login ghcr.io` on the server with a PAT that has `read:packages`
-   instead.
+2. GHCR packages built from a public repo are public by default, so
+   `docker compose pull` works on your server with no login step. If you'd
+   rather keep it private, open the package's settings on GitHub and
+   restrict visibility, then run `docker login ghcr.io` on the server with
+   a PAT that has `read:packages`.
 3. On your home server:
    ```bash
    docker compose up -d
