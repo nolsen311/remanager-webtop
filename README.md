@@ -40,6 +40,19 @@ below.
 Optional: uncomment `CUSTOM_USER`/`PASSWORD` in `docker-compose.yml` to put
 a login prompt in front of the web UI.
 
+### Using it on a phone
+
+Touch doesn't map to clicks the way you'd expect out of the box. Open the
+Selkies sidebar (the tab on the left edge of the screen) and:
+
+- Enable the **trackpad** toggle (next to the keyboard icon) so dragging
+  moves a real cursor and tapping clicks — without it, taps on the stream
+  don't register at all.
+- Tap the **keyboard** icon whenever you need to type (IP address, SSH
+  password, etc). Focusing a remote text field can't trigger your phone's
+  keyboard automatically the way a real page input would, so this button is
+  the intended way to bring it up.
+
 ## Keeping the running container up to date
 
 The GitHub Action only builds and publishes the image — your server still
@@ -64,8 +77,6 @@ survive image upgrades and container recreation.
 
 ## Notes
 
-- First launch may prompt to set up a keyring (used to store saved SSH
-  passwords). You can skip it if you don't need password persistence.
 - The container renders in software (no GPU passthrough), which is fine
   for reManager's UI but means it's not meant for anything graphically
   heavy.
